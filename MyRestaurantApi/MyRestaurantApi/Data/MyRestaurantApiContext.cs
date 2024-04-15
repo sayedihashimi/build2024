@@ -15,5 +15,8 @@ namespace MyRestaurantApi.Data
         }
 
         public DbSet<MyRestaurantApi.Contact> Contact { get; set; } = default!;
+        public DbSet<MyRestaurantApi.MenuItem> MenuItem { get; set; } = default!;
+        public DbSet<MyRestaurantApi.MenuItemOrdered> MenuItemOrdered { get; set; } = default!;
+        public DbSet<MyRestaurantApi.TogoOrder> TogoOrder { get; set; } = default!;
     }
 }
