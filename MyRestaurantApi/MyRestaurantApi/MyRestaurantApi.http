@@ -40,6 +40,17 @@ GET {{MyRestaurantApi_HostAddress}}/api/Contact/9
 
 ### 
 
+# delete the contact we just created
+DELETE {{MyRestaurantApi_HostAddress}}/api/Contact/9
+
+###
+
+# try to get the contact that we just deleted
+GET {{MyRestaurantApi_HostAddress}}/api/Contact/9
+
+### 
+
+
 # get all menu items
 GET {{MyRestaurantApi_HostAddress}}/api/MenuItem
 
@@ -69,5 +80,33 @@ Content-type: application/json
   }
 }
 
+###
+# add another togo order
+POST {{MyRestaurantApi_HostAddress}}/api/TogoOrder/
+Content-Type: application/json
+
+{
+  "itemsOrdered": [
+    {
+      "menuItemId":2001
+    },
+    {
+      "menuItemId":2002
+    },
+    {
+      "menuItemId":2003
+    },
+    {
+      "menuItemId":2004
+    }
+  ],
+  "subtotal": 33.50,
+  "tax": 4.8,
+  "total": 38.30,
+  "paymentMethod": 1,
+  "customer": {
+    "id": 3
+  }
+}
 
 ###
