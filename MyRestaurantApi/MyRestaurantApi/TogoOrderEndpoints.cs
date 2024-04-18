@@ -49,24 +49,23 @@ public static class TogoOrderEndpoints
 
         group.MapPost("/", async (TogoOrder togoOrder, MyRestaurantApiContext db) =>
         {
-			togoOrder.Customer = await db.Contact.FindAsync(togoOrder.Customer!.Id);
+            togoOrder.Customer = await db.Contact.FindAsync(togoOrder.Customer!.Id);
 
-			if (togoOrder.OrderCreated == null) {
-				togoOrder.OrderCreated = DateTime.Now;
-			}
-			if (togoOrder.ItemsOrdered != null && togoOrder.ItemsOrdered.Count > 0) {
-				foreach (var item in togoOrder.ItemsOrdered) {
-					var menuItem = await db.MenuItem.FindAsync(item.MenuItemId);
-					item.Name = menuItem!.Name;
-					if (item.Price is null || !item.Price.HasValue || item.Price.Value < 0) {
-						item.Price = menuItem.Price!.Value;
-					}
-					if (item.Category is null || !item.Category.HasValue) {
-						item.Category = menuItem.Category!.Value;
-					}
-				}
-			}
-			db.TogoOrder.Add(togoOrder);
+			togoOrder.OrderCreated ??= DateTime.Now;
+
+			if (togoOrder.ItemsOrdered?.Count == 0) {
+                foreach (var item in togoOrder.ItemsOrdered) {
+                    var menuItem = await db.MenuItem.FindAsync(item.MenuItemId);
+                    item.Name = menuItem!.Name;
+                    if (item.Price is null || !item.Price.HasValue || item.Price.Value < 0) {
+                        item.Price = menuItem.Price!.Value;
+                    }
+                    if (item.Category is null || !item.Category.HasValue) {
+                        item.Category = menuItem.Category!.Value;
+                    }
+                }
+            }
+            db.TogoOrder.Add(togoOrder);
             await db.SaveChangesAsync();
             return TypedResults.Created($"/api/TogoOrder/{togoOrder.Id}",togoOrder);
         })
