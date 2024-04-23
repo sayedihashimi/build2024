@@ -110,3 +110,7 @@ Content-Type: application/json
 }
 
 ###
+GET https://httpbin.org/anything
+X-ApiKey: "{{apiKey}}
+
+###
